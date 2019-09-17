@@ -1,0 +1,39 @@
+---
+title: 'Assignment #1 Gapminder'
+author: "Racquelle Sabrina Mangahas"
+date: "16/09/2019"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+  
+---
+
+##
+
+#Load gapminder 
+```{r load}
+library(gapminder)
+```
+
+##
+
+#Convert gapminder dataframe to a tibble
+```{r}
+tibble::as_tibble(gapminder)
+```
+
+##
+
+#Some functions that will help analyze the gapminder dataset
+
+
+-names(gapminder)
+
+-summary(gapminder)
+
+-tail(gapminder)
+
+-nrow(gapminder)
+
+-ncol(gapminder)
