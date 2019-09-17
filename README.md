@@ -1,4 +1,4 @@
-# Racquelle's README Edit for Assignment 1
+### Racquelle's README Edit for Assignment 1
 
 :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom:
 
@@ -20,9 +20,9 @@ Some foods that I enjoy eating:
 
 and many more...
 
-Rupi Kaur in *milk and honey*, pg. 191, 2015:
->> we all move forward when
->> we recognize how resilient 
->> and striking the women
->> around us are
+Rupi Kaur in *__milk and honey__*, pg. 191, 2015:
+> *we all move forward when
+> we recognize how resilient 
+> and striking the women
+> around us are*
 
