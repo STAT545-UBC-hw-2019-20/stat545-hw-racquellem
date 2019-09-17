@@ -4,7 +4,7 @@
 
 # _What is this repository?_
 
-Hi! Welcome to my repository (=repo). I'm guessing you have either just wandered onto this page or you're in fact the *peer* that will assess my work. Anywho, here you will be able to find files that I've created, worked on and saved for assignment completion. You can see all the __commits__, i.e. changes made over time, that I've made in this repo and also the coding behind all of it, for a better understanding of how I was able to do what I did.
+Hi! Welcome to my repository (=repo). I'm guessing you have either just wandered onto this page or you're in fact the *person* that will assess my work. Anywho, here you will be able to find files that I've created, worked on and saved for assignment completion. You can see all the __commits__, i.e. changes made over time, that I've made in this repo and also the coding behind all of it, for a better understanding of how I was able to do what I did.
 
 # _Who am I?_
 
