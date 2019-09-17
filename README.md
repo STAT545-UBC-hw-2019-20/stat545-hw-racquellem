@@ -21,8 +21,8 @@ Some foods that I enjoy eating:
 and many more...
 
 Rupi Kaur in *milk and honey*, pg. 191, 2015:
-> we all move forward when
-> we recognize how resilient 
-> and striking the women
-> around us are.
+>> we all move forward when
+>> we recognize how resilient 
+>> and striking the women
+>> around us are
 
