@@ -18,8 +18,6 @@ Some foods that I enjoy eating:
 5. :grapes:
 6. :tangerine:
 
-and many more...
-
 Rupi Kaur in *__milk and honey__*, pg. 191, 2015:
 > *we all move forward when
 > we recognize how resilient 
