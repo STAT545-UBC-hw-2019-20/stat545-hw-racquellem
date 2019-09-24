@@ -1,0 +1,171 @@
+---
+title: "Mangahas_Assignment2"
+author: "Racquelle Sabrina Mangahas"
+date: "23/09/2019"
+output: 
+  html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load packages, warning = FALSE, message = FALSE}
+library(gapminder)
+library(tidyverse)
+```
+
+# 1.1= Filter to three countries in the 1970s
+```{r}
+gapminder.assign2<- gapminder %>%
+  filter(country %in% c('Canada', 'Ireland' , 'Madagascar'))%>%
+  filter(year <= 1979 & year >= 1970)
+```
+
+#Assign new name for filtered dataset
+```{r}
+gapminder.assign2 <-gapminder %>%
+  filter(country %in% c('Canada', 'Ireland' , 'Madagascar'))%>%
+  filter(year <= 1979 & year >= 1970)
+```
+
+# 1.2= Filtered dataset gapminder.assign2, select for country and gdpPercap
+```{r}
+gapminder.assign2 %>%
+  select (country, gdpPercap) 
+```
+
+# 1.3= Create new column with change of lifeExp, filter to values that have a negative value (displaying decrease in values)
+```{r}
+gapminder %>% 
+  group_by(country) %>%
+  mutate(change_lifeExp=(lifeExp-lag(lifeExp)))%>%
+  filter(change_lifeExp <0)
+
+```
+
+# 1.4= Filter each country by maxgdpPercap
+```{r}
+gapminder %>%
+  group_by(country) %>%
+    filter(gdpPercap==max(gdpPercap))
+```
+
+# 1.5= Scatterplot Canada's life expectancy vs gdpPercap
+
+```{r}
+gapminder_Canada<- gapminder %>%
+  filter(country=='Canada')
+```
+
+```{r, fig.width = 7, fig.height = 5}
+ggplot(gapminder_Canada, aes(lifeExp,gdpPercap)) +
+  geom_line(colour="red", alpha=0.8) +
+  scale_y_log10("GDP per capita", labels=scales::dollar_format()) +
+  ylab("GDP per capita") +
+  xlab("Life Expectancy") +
+  ggtitle("Canada's Life Expectancy vs GDP per capita (1952-2007)")+
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+# 2= Exploring categorical variable (continent) and quantitative variable(pop)
+
+```{r}
+Gapminder_Con_Pop <-gapminder %>% 
+  select(continent,pop)
+```
+
+#Number of entries from each continent (summary)
+```{r}
+summary(Gapminder_Con_Pop$continent, digits=1)
+```
+#Number of entries from each continent (table)
+```{r}
+Gapminder_Con_Pop %>% 
+  count(continent)
+```
+
+#Maximum ppulation values for each of the 5 continents
+```{r}
+Gapminder_Con_Pop %>% 
+  group_by(continent) %>% 
+  summarise(max(pop))
+```
+
+#Minimum population values for each of the 5 continents
+```{r}
+Gapminder_Con_Pop %>% 
+  group_by(continent) %>% 
+  summarise(min(pop))
+```
+
+#In summary, there are 5 continents with differing number of entries, and each of them has a wide range of populations over time.
+
+#Finding the mean population in the gapminder dataset for each continent
+```{r}
+Gapminder_Con_Pop_Avg <-gapminder %>% 
+  group_by(continent) %>% 
+  summarise(average=mean(pop))
+```
+
+#Creating a column graph displaying results
+```{r, fig.width = 5, fig.height = 5}
+ggplot(Gapminder_Con_Pop_Avg, aes(continent, average)) +
+  geom_col()+
+  xlab("Continent")+
+  ylab("Average Population")+
+  ggtitle("Continent vs Average Population \n in Gapminder Dataset") +
+    theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+#In conclusion, this ggplot shows that Asia has the highest average population within the dataset, while Oceania has the lowest (albeit close to that of Africa), with average values ranging from the thousands to millions.
+
+# 3= Exploring various plot types
+
+#Found a new dataset to look at through 'R Datasets Package' called rock, n=48
+```{r}
+library(rock)
+```
+
+#First ggplot (scatterplot) of 2 quantitative variables (area, perimeter)
+```{r, fig.width = 5, fig.height = 5}
+ggplot(rock, aes(area, peri)) +
+  geom_point(colour='purple', alpha=0.8) +
+  theme_bw() +
+  xlab('Area of Pores Space (pixels out of 256x256)')+
+  ylab('Perimeter (pixels)') +
+  ggtitle("Area of Pores Space vs Perimeter 
+        of Petroleum Rock Samples") +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+#Second ggplot (smooth) of 2 quantitative variables (area, perimeter)
+```{r, fig.width = 5, fig.height = 5}
+ggplot(rock, aes(area, peri)) +
+  geom_smooth(colour='pink', alpha=0.8) +
+  theme_bw() +
+  xlab('Area of Pores Space (pixels out of 256x256)')+
+  ylab('Perimeter (pixels)') +
+  ggtitle("Petroleum Rock Samples: Area of Pores Space vs Perimeter") +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+# Recycling (Optional) (extra 2%)
+```{r}
+filter(gapminder, country == c("Rwanda", "Afghanistan"))
+```
+#No, they did not succeed as not all of the data for Afghanistan and Rwanda is being displayed.  It seems that it is only showing data from each decade. 
+
+#Correct way to do this
+```{r}
+gapminder %>% 
+  filter (country=='Rwanda' | country== 'Afghanistan')
+```
+
+
+# Tibble display(Optional) (extra 1%)
+```{r}
+DT::datatable(gapminder)
+```
+
