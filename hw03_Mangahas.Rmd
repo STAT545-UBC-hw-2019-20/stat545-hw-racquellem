@@ -1,0 +1,116 @@
+---
+title: "hw03_Mangahas"
+author: "Racquelle Sabrina Mangahas"
+date: "27/09/2019"
+output: html_document
+---
+
+```{r}
+library(gapminder)
+library(tidyverse)
+```
+
+```{r}
+gapminder
+```
+
+```{r allow errors, echo = FALSE}
+knitr::opts_chunk$set(error = TRUE, warning = FALSE)
+```
+
+# Task 1
+*How is life expectancy changing over time on different continents?
+*
+
+```{r}
+gapminder_LifeExp <- gapminder %>% 
+  group_by(continent) %>% 
+  summarise(year, lifeExp) %>% 
+  DT::datatable(gapminder_LifeExp, colnames = c('Continent', 'Year', 'Life Expectancy'))
+```
+
+```{r}
+gapminder_LifeExp
+```
+
+
+```{r, fig.width = 10, fig.height = 10}
+ggplot(gapminder, aes(year, lifeExp, size=pop, fill=continent)) +
+  geom_point(alpha = 0.9, shape=21) +
+  facet_wrap(~continent, scales="free_x") +
+  xlab("Year") +
+  ylab("Life Expectancy") +
+  theme_minimal() +
+  labs(fill="Continent", size="Population") +
+  ggtitle("Change of Life Expectancy Over Time") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+# Task 2
+*Get all the maximum and minimum of GDP per capita for all continents.
+
+```{r, fig.width = 10, fig.height = 10}
+ggplot(gapminder, aes(continent, gdpPercap)) +
+  geom_boxplot(alpha=1) +
+  scale_y_continuous(labels = scales::comma_format()) +
+  xlab("Continent") +
+  ylab("GDP per capita ($)") +
+  theme_linedraw() +
+  guides(fill="none") +
+  ggtitle("GDP per capita for each Continent") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+```{r}
+gapminder_MinMax <-gapminder %>% 
+  group_by(continent) %>% 
+  summarise(min(gdpPercap), max(gdpPercap)) %>% 
+DT::datatable(gapminder_MinMax, colnames = c('Continent', 'Minimum GDP per capita', 'Maximum GDP per capita'))
+```
+
+```{r}
+gapminder_MinMax
+```
+
+
+
+jitter, show the max 
+stats. summary function
+
+jitter, show the max 
+stats. summary function
+
+timescale
+
+make new max and min dataset
+and combine
+then create the graph 
+
+
+# Task 3
+*Look at the spread of GDP per capita within the continents 
+
+```{r}
+gapminder_GDP <-gapminder %>% 
+  group_by(continent) %>% 
+  summarise(gdpPercap) 
+```
+
+
+standard deviation
+interquartile range
+```{r, fig.width = 10, fig.height = 10}
+ggplot(gapminder, aes(continent, gdpPercap, fill=continent)) +
+  geom_violin(alpha=1) +
+  scale_y_continuous(labels = scales::comma_format()) +
+  xlab("Continent") +
+  ylab("GDP per capita ($)") +
+  theme_linedraw() +
+  guides(fill="none") +
+  ggtitle("Spread of GDP per capita for each Continent") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+
+
