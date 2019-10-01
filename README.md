@@ -24,3 +24,6 @@ Rupi Kaur in *__milk and honey__*, pg. 191, 2015:
 > and striking the women
 > around us are*
 
+:cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom:
+:cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom:
+:cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom: :cherry_blossom:
