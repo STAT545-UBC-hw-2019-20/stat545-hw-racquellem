@@ -8,7 +8,7 @@ Hi! Welcome to my repository (=repo). I'm guessing you have either just wandered
 
 # _Who am I?_
 
-My full name is *Racquelle Sabrina Mangahas*. I'm a Filipino-Canadian MSc graduate student who recently *(that is, May 2019)* just arrived here from Oakville, Ontario. My field is in Oceanography :ocean:, where I will be studying the effects of Asian-derived aerosols on phytoplankton physiology and the water column in the Subarctic Northeastern Pacific Ocean. This requires me to board a Canadian government vessel and go on a 2-3 week long research cruise __three times a year__. I actually went on my first research cruise last month *(August 2019)*, and it was really awesome *(but to be honest, it was a love-hate relationship)*. 
+My full name is *Racquelle Sabrina Mangahas*. I'm a Filipino-Canadian MSc graduate student who recently *(that is, May 2019)* just arrived here from Oakville, Ontario. My field is in Oceanography :ocean:, where I will be studying the effects of Asian-derived aerosols on phytoplankton physiology and the water column in the Subarctic Northeastern Pacific Ocean. This requires me to board a Canadian government vessel and go on a 2-3 week long research cruise __three times a year__! I actually went on my first research cruise last month *(August 2019)*, and it was really awesome *(but to be honest, it was a love-hate relationship)*. 
 
 Some foods that I enjoy eating:
 1. :watermelon:
