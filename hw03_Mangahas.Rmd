@@ -2,9 +2,13 @@
 title: "hw03_Mangahas"
 author: "Racquelle Sabrina Mangahas"
 date: "27/09/2019"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
+# Gapminder
+Loading the gapminder and tidyverse packages, and caught a glimpse of the gapminder dataset.
 ```{r}
 library(gapminder)
 library(tidyverse)
@@ -18,21 +22,19 @@ gapminder
 knitr::opts_chunk$set(error = TRUE, warning = FALSE)
 ```
 
-# Task 1
-*How is life expectancy changing over time on different continents?
-*
+# Task 1: How is life expectancy changing over time on different continents?
+
+I decided to create datatable, grouped by continent and year, that showed the minimum, maximum and mean life expectancy.  Here you can see how the life expectancy values changes over time.
 
 ```{r}
-gapminder_LifeExp <- gapminder %>% 
-  group_by(continent) %>% 
-  summarise(year, lifeExp) %>% 
-  DT::datatable(gapminder_LifeExp, colnames = c('Continent', 'Year', 'Life Expectancy'))
+gapminder_LifeExp <-gapminder %>% 
+  group_by(continent, year) %>% 
+  summarise(max(lifeExp), min(lifeExp), mean(lifeExp)) %>% 
+  mutate('max(lifeExp)'=round(`max(lifeExp)`), 'min(lifeExp)'=round(`min(lifeExp)`),'mean(lifeExp)'=round(`mean(lifeExp)`)) 
+DT::datatable(gapminder_LifeExp, colnames = c('Continent', 'Year', 'Maximum Life Expectancy', 'Minimum Life Expectancy', 'Mean Life Expectancy'))
 ```
 
-```{r}
-gapminder_LifeExp
-```
-
+Rather than just scrolling through a bunch of pages in the datatable, I also created a ggplot which shows the changes in life expectancy for each continent (distinguished by colour). I added the extra layer of the size of each point representing the population of individuals. 
 
 ```{r, fig.width = 10, fig.height = 10}
 ggplot(gapminder, aes(year, lifeExp, size=pop, fill=continent)) +
@@ -46,11 +48,24 @@ ggplot(gapminder, aes(year, lifeExp, size=pop, fill=continent)) +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-# Task 2
-*Get all the maximum and minimum of GDP per capita for all continents.
+Through the datatable and ggplot you can see that the life expectancy over the past ~50 years for each continent has changed. For the most part, the maximum, minimum and mean age of life expectancy has become higher successively.
+
+# Task 2: Get all the maximum and minimum of GDP per capita for all continents.
+
+Below is a datatable with the minimum and maximum GDP per capita for each continent. I grouped by continent, and used the summarise function to find the values. I later mutated it so that the numbers got rounded and thus were portrayed in a cleaner way. 
+
+```{r}
+gapminder_MinMax <-gapminder %>% 
+  group_by(continent) %>% 
+  summarise(min(gdpPercap), max(gdpPercap)) %>% 
+  mutate('min(gdpPercap)'= round(`min(gdpPercap)`), 'max(gdpPercap)'= round(`max(gdpPercap)`))
+DT::datatable(gapminder_MinMax, colnames = c('Continent', 'Minimum GDP per capita', 'Maximum GDP per capita'))
+```
+
+I decided to create a boxplot in order to portray the maximum and minimum GDP per capita ($) for each continent. Each continent is represented by it's own colour.
 
 ```{r, fig.width = 10, fig.height = 10}
-ggplot(gapminder, aes(continent, gdpPercap)) +
+ggplot(gapminder, aes(continent, gdpPercap, fill=continent)) +
   geom_boxplot(alpha=1) +
   scale_y_continuous(labels = scales::comma_format()) +
   xlab("Continent") +
@@ -61,44 +76,22 @@ ggplot(gapminder, aes(continent, gdpPercap)) +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-```{r}
-gapminder_MinMax <-gapminder %>% 
-  group_by(continent) %>% 
-  summarise(min(gdpPercap), max(gdpPercap)) %>% 
-DT::datatable(gapminder_MinMax, colnames = c('Continent', 'Minimum GDP per capita', 'Maximum GDP per capita'))
-```
+As you can see from the datatable and ggplot, Asia had the greatest maximum GDP per capita by a long shot compared to the other continents, although they had the second lowest GDP per capita (following Africa). This is quite interesting to see, which leads to the next task at hand. 
 
-```{r}
-gapminder_MinMax
-```
+# Task 3: Look at the spread of GDP per capita within the continents 
 
-
-
-jitter, show the max 
-stats. summary function
-
-jitter, show the max 
-stats. summary function
-
-timescale
-
-make new max and min dataset
-and combine
-then create the graph 
-
-
-# Task 3
-*Look at the spread of GDP per capita within the continents 
+In order to investigate this I first created a datatable that would produced values representing the spread of the GDP per capita data for each continent. This included summarising values such as interquartile range, median absolute deviation, standard deviation, and variance. Some additional features was rounding the GDP per capita numericals (as they looked quite messy otherwise- many significant digits) and also renamed the column names. 
 
 ```{r}
 gapminder_GDP <-gapminder %>% 
   group_by(continent) %>% 
-  summarise(gdpPercap) 
+  summarise(IQR(gdpPercap), mad(gdpPercap), sd(gdpPercap), var(gdpPercap)) %>% 
+  mutate('IQR(gdpPercap)' = round(`IQR(gdpPercap)`), 'mad(gdpPercap)'=  round(`mad(gdpPercap)`),'sd(gdpPercap)'= round(`sd(gdpPercap)`), 'var(gdpPercap)'= round(`var(gdpPercap)`)) 
+  DT::datatable(gapminder_GDP, colnames = c('Continent','GDP per capita Interquartile Range', 'Median Absolute Deviation of GDP per capita', 'Standard Deviation of GDP per capita', 'Variance of GDP per capita'))
 ```
 
+I then created a ggplot with the geom_violin feature that gave a visual representation of the GDP per capita spread for each continent. 
 
-standard deviation
-interquartile range
 ```{r, fig.width = 10, fig.height = 10}
 ggplot(gapminder, aes(continent, gdpPercap, fill=continent)) +
   geom_violin(alpha=1) +
@@ -111,6 +104,4 @@ ggplot(gapminder, aes(continent, gdpPercap, fill=continent)) +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-
-
-
+In addition to what we saw in the previous task (#2) you can really see the vast differences of GDP per capita and its spread for each continent. For example, in Africa, Asia and Europe, it is largely concentrated in the lower end, while Europe and Oceania are a 'bit' more uniform.
