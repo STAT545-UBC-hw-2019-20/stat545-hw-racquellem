@@ -9,4 +9,5 @@ Here I manipulated and explored the gapminder dataset with the dplyr package, an
 3. Look at the spread of GDP per capita within the continents.
 
 Cheers,
-Racquelle :sparkles:
+
+:sparkles: Racquelle :sparkles:
