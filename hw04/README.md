@@ -6,6 +6,7 @@ Hi! Welcome to my hw04 folder. You can view the html document of this assignment
 Here I used my data wrangling skills to solve problems on the gapminder dataset and on a wedding guestlist. I used several coding functions that allowed me to manipulate their data through aggregation and reshaping. 
 
 Enjoy~
+
 Racquelle :ghost:
 
 P.S. Thanks for all the feedback/comments!
