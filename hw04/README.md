@@ -1,5 +1,5 @@
 
-# _HW04 HTML File_
+# _HW04: Tidy data and joins_
 
 Hi! Welcome to my hw04 folder. You can view the html document of this assignment by clicking the following- [hw04](https://stat545-ubc-hw-2019-20.github.io/stat545-hw-racquellem/hw04/hw04_Mangahas.html). 
 
