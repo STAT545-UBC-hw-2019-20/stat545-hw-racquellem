@@ -1,0 +1,154 @@
+---
+title: "Assignment 04: Tidy data and joins"
+author: "Racquelle Sabrina Mangahas"
+date: "05/10/2019"
+output: html_document
+---
+
+Loading of gapminder and tidyverse R packages, as well as the wedding guest and email data.
+
+```{r}
+library(gapminder)
+library(tidyverse)
+guest <- read_csv("https://raw.githubusercontent.com/STAT545-UBC/Classroom/master/data/wedding/attend.csv")
+email <- read_csv("https://raw.githubusercontent.com/STAT545-UBC/Classroom/master/data/wedding/emails.csv")
+```
+
+```{r}
+DT::datatable(gapminder)
+```
+
+## Exercise 1: Univariate Data Reshaping (Option 1)
+
+> 1. Make a tibble with one row per year, and columns for life expectancy for two or more countries.
+
+* First, I will make a tibble with one row per year, and columns for life expectancy for the countries Canada and Ireland. I accomplished this by first narrowing down the gapminder dataset: (1) filtering to show for only Canada and Ireland, (2) grouping by year and (3) selecting for the columns I'm interested in, which would be country, year and life expectancy. I then used the pivot_wider function that kept the 'year' column, and grouped the life expectancy values under the new country columns.  Sidenote: I 
+
+```{r}
+(gapminder_wide <- gapminder %>% 
+   filter(country == 'Canada'| country ==  'Ireland') %>% 
+   group_by(year) %>% 
+   select(country, year, lifeExp) %>% 
+   mutate('lifeExp'= round(`lifeExp`)) %>% 
+   pivot_wider(id_cols= c(year),
+               names_from= country,
+               values_from= lifeExp)) %>% 
+DT::datatable(gapminder_wide)
+```
+
+> 2. Take advantage of this new data shape to scatterplot life expectancy for one country against that of another.
+
+* Below is a scatterplot of life expectancy for Canada against Ireland.
+
+```{r, fig.width = 10, fig.height = 7}
+ggplot(gapminder_wide, aes(x=Canada, y=Ireland)) +
+  geom_point() +
+  labs(x= "Life Expectancy in Canada", y= "Life Expectancy in Ireland") +
+  ggtitle("Life Expectancy in Canada versus Ireland (1952-2007)")+
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5)) 
+```
+
+> 3. Re-lengthen the data
+
+* Then, I re-lengthened the data. This still groups the data by year, but Canada and Ireland are back to the column 'country', and life expectancy values are back into their original 'lifeExp' column. 
+
+```{r}
+gapminder_wide %>% 
+  pivot_longer(cols= c(-year),
+               names_to= "country",
+               values_to= "lifeExp") %>% 
+DT::datatable(gapminder_wide)
+```
+
+## Exercise 2: Multivariate Data Reshaping (Option 1)
+
+> 1. Make a tibble with one row per year, and columns for life expectancy and GDP per capita (or two other numeric variables) for two or more countries.
+
+* I will make a tibble with one row per year, and columns for life expectancy and GDP per capita (or two other numeric variables) for Canada and Ireland. 
+
+```{r}
+gapminder_multi <- gapminder %>% 
+   filter(country == 'Canada'| country ==  'Ireland') %>% 
+   group_by(year) %>% 
+   select(country, year, lifeExp, gdpPercap) %>% 
+  mutate('lifeExp'= round(`lifeExp`), 'gdpPercap'= round(`gdpPercap`)) %>% 
+  pivot_wider(id_cols= c(year),
+              names_from=country,
+              names_sep="_",
+              values_from= c(lifeExp, gdpPercap)) 
+DT::datatable(gapminder_multi)
+```
+
+> 2. Re-lengthen the data
+
+* Next, I will re-lengthen the data such that the columns country, lifeExp and gdpPercap will have their own columns again, grouped by year. 
+
+```{r}
+gapminder_multi_new <-gapminder_multi %>% 
+   pivot_longer(cols= c(-year),
+                names_to= c(".value", "country"),
+                names_sep="_")
+```
+
+```{r}
+DT::datatable(gapminder_multi_new)
+```
+
+## Exercise 3: Table Joins
+
+> 3.1: For each guest in the guestlist (guest tibble), add a column for email address, which can be found in the email tibble.
+
+* Since the email dataset is formatted 'guest,email'; use the separate_rows() such that each guest has their own email corresponding to their name in each row. Therefore, as shown below, family members have their own row but same email in which they provided. 
+
+* At the beginning I had the problem of putting the email for EVERYONE in the Medrano family in the guest tibble, and found out it was because the email tibble had white spaces. Thus I used the coding we learned today in class (Tues,Oct 8) that removed white spaces before the email. This fixed the later problem; after doing a left join between the two tibbles, the emails now displayed for ALL of the Medrano family members. 
+
+```{r}
+guest_email = email %>% 
+  separate_rows(guest, sep=",") %>% 
+  mutate(guest = trimws(guest, "both"))
+
+DT::datatable(guest_email)
+```
+
+* Now I'd want to add the guest_email tibble (found above) to the guest one ('main' one). This includes having to adjust to the different column names between the tibble (i.e. name versus guest). I will have to use the left-join() function. Therefore, a new column 'email' will be added and will be shown corresponding to the guest name. 
+
+```{r}
+(guest_new <-guest %>% 
+    left_join(guest_email, by= c("name"="guest"))) %>% 
+DT::datatable(guest_new)
+```
+
+> 3.2: Who do we have emails for, yet are not on the guestlist?
+
+* In order to do this, I will use the anti_join() function in order to keep rows that don't have a match (have emails for them, but are NOT on the guest list.
+
+```{r}
+guest_anti <- guest_email %>% 
+  anti_join(guest, by= c("guest"="name"))
+```
+
+```{r}
+DT::datatable(guest_anti)
+```
+
+> 3.3: Make a guestlist that includes everyone we have emails for (in additon to those on the original guestlist)
+
+* Combined two tibbles such that all information is available in only one using the full_join() function. Here you can scroll through the sheets and see everyone that is on the guestlist, either with and without an email corresponding to them.
+
+```{r}
+guest_full <-guest %>% 
+  full_join(guest_email, by= c("name"="guest")) 
+```
+
+```{r}
+DT::datatable(guest_full)
+```
+
+
+
+
+
+
+
+
